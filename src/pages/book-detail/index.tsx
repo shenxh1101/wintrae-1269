@@ -123,11 +123,26 @@ const BookDetailPage: React.FC = () => {
                 <Text className={styles.recordDate}>
                   {formatDate(record.date, 'MM月DD日')}
                 </Text>
-                <Text className={styles.recordDuration}>{record.duration} 分钟</Text>
+                <View className={styles.recordMeta}>
+                  {record.audioRecord && (
+                    <Text className={styles.audioTag}>🎤 有录音</Text>
+                  )}
+                  <Text className={styles.recordDuration}>{record.duration} 分钟</Text>
+                </View>
               </View>
               <Text className={styles.recordPages}>
                 第 {record.startPage} - {record.endPage} 页
               </Text>
+              {record.audioRecord && (
+                <View className={styles.recordContent}>
+                  <Text className={styles.recordLabel}>
+                    🎤 朗读录音
+                    <Text className={styles.audioDuration}>
+                      （{Math.floor(record.audioRecord.duration / 1000)}秒）
+                    </Text>
+                  </Text>
+                </View>
+              )}
               {record.favoriteSentences.length > 0 && (
                 <View className={styles.recordContent}>
                   <Text className={styles.recordLabel}>喜欢的句子</Text>

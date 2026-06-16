@@ -184,6 +184,27 @@
   color: $color-text-primary;
 }
 
+.recordMeta {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.audioTag {
+  font-size: $font-size-xs;
+  color: $color-accent;
+  background: rgba(255, 159, 67, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: $radius-round;
+  font-weight: $font-weight-medium;
+}
+
+.audioDuration {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  margin-left: $spacing-xs;
+}
+
 .recordDuration {
   font-size: $font-size-sm;
   color: $color-primary;

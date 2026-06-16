@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Input, Textarea, ScrollView } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import styles from './index.module.scss';
@@ -14,11 +14,21 @@ const AddBookPage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [totalPages, setTotalPages] = useState('');
+  const [isbn, setIsbn] = useState('');
   const [category, setCategory] = useState<BookCategory>('fiction');
   const [status, setStatus] = useState<'reading' | 'borrowed'>('reading');
   const [description, setDescription] = useState('');
   const [borrowedFrom, setBorrowedFrom] = useState('');
   const [borrowDueDate, setBorrowDueDate] = useState('');
+  const [publisher, setPublisher] = useState('');
+
+  useEffect(() => {
+    if (isbnParam) {
+      setIsbn(isbnParam);
+      console.log('[AddBook] Received ISBN from param:', isbnParam);
+      Taro.showToast({ title: '已获取ISBN', icon: 'success' });
+    }
+  }, [isbnParam]);
 
   const categories: { key: BookCategory; label: string; icon: string }[] = [
     { key: 'fiction', label: '文学小说', icon: '📖' },
@@ -31,6 +41,8 @@ const AddBookPage: React.FC = () => {
   const handleScan = () => {
     Taro.scanCode({
       success: (res) => {
+        console.log('[AddBook] Scan result:', res.result);
+        setIsbn(res.result);
         Taro.showToast({
           title: '已获取ISBN',
           icon: 'success'
@@ -63,14 +75,19 @@ const AddBookPage: React.FC = () => {
       return;
     }
 
+    const randomPicIds = [1015, 1018, 1036, 1039, 1044, 1025, 201, 237, 64, 91];
+    const randomPic = randomPicIds[Math.floor(Math.random() * randomPicIds.length)];
+
     addBook({
       title: title.trim(),
       author: author.trim(),
-      cover: `https://picsum.photos/id/${Math.floor(Math.random() * 100) + 1000}/300/400`,
+      cover: `https://picsum.photos/id/${randomPic}/300/400`,
       category,
       totalPages: parseInt(totalPages),
       currentPage: 0,
       status,
+      isbn: isbn.trim() || undefined,
+      publisher: publisher.trim() || undefined,
       description: description.trim() || undefined,
       borrowedFrom: status === 'borrowed' ? borrowedFrom.trim() || undefined : undefined,
       borrowDueDate: status === 'borrowed' ? borrowDueDate || undefined : undefined,
@@ -88,8 +105,10 @@ const AddBookPage: React.FC = () => {
       <View className={styles.scanSection} onClick={handleScan}>
         <Text className={styles.scanIcon}>📷</Text>
         <View className={styles.scanText}>
-          <Text className={styles.scanTitle}>扫码添加</Text>
-          <Text className={styles.scanDesc}>扫描书籍条码，自动获取书籍信息</Text>
+          <Text className={styles.scanTitle}>{isbn ? '重新扫码' : '扫码添加'}</Text>
+          <Text className={styles.scanDesc}>
+            {isbn ? `当前ISBN: ${isbn}` : '扫描书籍条码，自动获取ISBN'}
+          </Text>
         </View>
         <Text className={styles.scanArrow}>›</Text>
       </View>
@@ -97,6 +116,19 @@ const AddBookPage: React.FC = () => {
       <View className={styles.formSection}>
         <Text className={styles.formTitle}>书籍信息</Text>
         
+        {isbn && (
+          <View className={styles.formItem}>
+            <Text className={styles.formLabel}>ISBN</Text>
+            <Input
+              className={styles.formInput}
+              value={isbn}
+              onInput={(e) => setIsbn(e.detail.value)}
+              placeholder="ISBN编号"
+              maxlength={20}
+            />
+          </View>
+        )}
+
         <View className={styles.formItem}>
           <Text className={styles.formLabel}>书名 *</Text>
           <Input
@@ -115,6 +147,17 @@ const AddBookPage: React.FC = () => {
             value={author}
             onInput={(e) => setAuthor(e.detail.value)}
             placeholder="请输入作者"
+            maxlength={30}
+          />
+        </View>
+
+        <View className={styles.formItem}>
+          <Text className={styles.formLabel}>出版社</Text>
+          <Input
+            className={styles.formInput}
+            value={publisher}
+            onInput={(e) => setPublisher(e.detail.value)}
+            placeholder="请输入出版社（选填）"
             maxlength={30}
           />
         </View>

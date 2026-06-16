@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Input, ScrollView } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import styles from './index.module.scss';
+import { useApp } from '@/store/AppContext';
 
 const RewardSettingPage: React.FC = () => {
+  const { currentChild, goalSettings, updateGoalSettings } = useApp();
+
   const [dailyMinutes, setDailyMinutes] = useState(30);
   const [dailyPages, setDailyPages] = useState(10);
   const [weeklyDays, setWeeklyDays] = useState(5);
@@ -11,7 +14,30 @@ const RewardSettingPage: React.FC = () => {
   const [dailyReward, setDailyReward] = useState('获得10积分');
   const [weeklyReward, setWeeklyReward] = useState('周末看电影');
 
+  useEffect(() => {
+    if (goalSettings) {
+      setDailyMinutes(goalSettings.dailyMinutes);
+      setDailyPages(goalSettings.dailyPages);
+      setWeeklyDays(goalSettings.weeklyDays);
+      setWeeklyBooks(goalSettings.weeklyBooks);
+      if (goalSettings.dailyReward) setDailyReward(goalSettings.dailyReward);
+      if (goalSettings.weeklyReward) setWeeklyReward(goalSettings.weeklyReward);
+    }
+  }, [goalSettings]);
+
   const handleSave = () => {
+    if (!currentChild) {
+      Taro.showToast({ title: '请先选择孩子', icon: 'none' });
+      return;
+    }
+    updateGoalSettings(currentChild.id, {
+      dailyMinutes,
+      dailyPages,
+      weeklyDays,
+      weeklyBooks,
+      dailyReward,
+      weeklyReward
+    });
     Taro.showToast({ title: '保存成功', icon: 'success' });
     setTimeout(() => {
       Taro.navigateBack();

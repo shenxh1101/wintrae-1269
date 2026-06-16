@@ -3,7 +3,7 @@ import { View, Text, Image, Button, Input, Textarea, ScrollView } from '@tarojs/
 import Taro from '@tarojs/taro';
 import styles from './index.module.scss';
 import { useApp } from '@/store/AppContext';
-import { Book } from '@/types';
+import { Book, AudioRecord } from '@/types';
 import classNames from 'classnames';
 
 const ReadingPage: React.FC = () => {
@@ -31,7 +31,9 @@ const ReadingPage: React.FC = () => {
   
   const [isRecording, setIsRecording] = useState(false);
   const [recordDuration, setRecordDuration] = useState(0);
+  const [audioRecord, setAudioRecord] = useState<AudioRecord | null>(null);
   const recordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const recorderRef = useRef<any>(null);
 
   const readingBooks = currentChild 
     ? getBooksByChild(currentChild.id).filter(b => b.status === 'reading')
@@ -42,9 +44,36 @@ const ReadingPage: React.FC = () => {
       setSelectedBook(readingBooks[0]);
       setStartPage(String(readingBooks[0].currentPage));
     }
+    
+    recorderRef.current = Taro.getRecorderManager();
+    
+    if (recorderRef.current) {
+      recorderRef.current.onStart(() => {
+        console.log('[Reading] Recorder started');
+      });
+      
+      recorderRef.current.onStop((res: any) => {
+        console.log('[Reading] Recorder stopped', res);
+        setAudioRecord({
+          duration: res.duration,
+          filePath: res.tempFilePath,
+          size: res.fileSize
+        });
+        Taro.showToast({ title: '录音已保存', icon: 'success' });
+      });
+      
+      recorderRef.current.onError((err: any) => {
+        console.error('[Reading] Recorder error', err);
+        Taro.showToast({ title: '录音出错', icon: 'none' });
+      });
+    }
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
       if (recordTimerRef.current) clearInterval(recordTimerRef.current);
+      if (recorderRef.current && isRecording) {
+        try { recorderRef.current.stop(); } catch (e) {}
+      }
     };
   }, [readingBooks]);
 
@@ -126,14 +155,45 @@ const ReadingPage: React.FC = () => {
         clearInterval(recordTimerRef.current);
         recordTimerRef.current = null;
       }
-      Taro.showToast({ title: '录音已保存', icon: 'success' });
+      if (recorderRef.current) {
+        try {
+          recorderRef.current.stop();
+        } catch (e) {
+          console.error('[Reading] Stop recorder error:', e);
+        }
+      }
     } else {
+      setAudioRecord(null);
       setIsRecording(true);
       setRecordDuration(0);
+      if (recorderRef.current) {
+        recorderRef.current.start({
+          duration: 600000,
+          sampleRate: 44100,
+          numberOfChannels: 1,
+          encodeBitRate: 192000,
+          format: 'mp3',
+          frameSize: 50
+        });
+      }
       recordTimerRef.current = setInterval(() => {
         setRecordDuration(prev => prev + 1);
       }, 1000);
     }
+  };
+
+  const playRecording = () => {
+    if (audioRecord?.filePath) {
+      const innerAudioContext = Taro.createInnerAudioContext();
+      innerAudioContext.src = audioRecord.filePath;
+      innerAudioContext.play();
+      Taro.showToast({ title: '播放录音', icon: 'none' });
+    }
+  };
+
+  const clearRecording = () => {
+    setAudioRecord(null);
+    setRecordDuration(0);
   };
 
   const handleSubmit = () => {
@@ -166,7 +226,8 @@ const ReadingPage: React.FC = () => {
       startPage: startPageNum,
       endPage: endPageNum,
       favoriteSentences: sentences,
-      difficultWords: words
+      difficultWords: words,
+      audioRecord: audioRecord || undefined
     });
 
     Taro.showToast({ title: '打卡成功！', icon: 'success' });
@@ -178,6 +239,7 @@ const ReadingPage: React.FC = () => {
     setWords([]);
     setIsRecording(false);
     setRecordDuration(0);
+    setAudioRecord(null);
   };
 
   const durationMinutes = Math.floor(duration / 60);
@@ -301,13 +363,30 @@ const ReadingPage: React.FC = () => {
             {isRecording ? '停止' : '录音'}
           </Button>
           <View className={styles.recordInfo}>
-            <Text className={styles.recordStatus}>
-              {isRecording ? '正在录音...' : '点击开始朗读录音'}
-            </Text>
-            {recordDuration > 0 && (
-              <Text className={styles.recordDuration}>
-                {formatTime(recordDuration)}
-              </Text>
+            {audioRecord ? (
+              <>
+                <Text className={styles.recordStatus}>
+                  ✅ 已录制（点击可回放）
+                </Text>
+                <View className={styles.recordActions}>
+                  <Text className={styles.recordDuration}>
+                    时长 {formatTime(Math.floor(audioRecord.duration / 1000))}
+                  </Text>
+                  <Text className={styles.recordAction} onClick={playRecording}>播放</Text>
+                  <Text className={styles.recordAction} onClick={clearRecording}>重录</Text>
+                </View>
+              </>
+            ) : (
+              <>
+                <Text className={styles.recordStatus}>
+                  {isRecording ? '正在录音...' : '点击开始朗读录音'}
+                </Text>
+                {recordDuration > 0 && (
+                  <Text className={styles.recordDuration}>
+                    {formatTime(recordDuration)}
+                  </Text>
+                )}
+              </>
             )}
           </View>
         </View>

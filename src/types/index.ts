@@ -104,6 +104,30 @@ export interface DiscussionQuestion {
   category: string;
 }
 
+export interface GoalSettings {
+  dailyMinutes: number;
+  dailyPages: number;
+  weeklyDays: number;
+  weeklyBooks: number;
+  dailyReward: string;
+  weeklyReward: string;
+}
+
+export interface RewardRedemption {
+  id: string;
+  childId: string;
+  rewardName: string;
+  rewardIcon: string;
+  pointsCost: number;
+  redeemedAt: string;
+}
+
+export interface AudioRecord {
+  duration: number;
+  filePath: string;
+  size?: number;
+}
+
 export type BookCategory = 'fiction' | 'science' | 'history' | 'art' | 'other';
 
 export const categoryLabels: Record<BookCategory, string> = {

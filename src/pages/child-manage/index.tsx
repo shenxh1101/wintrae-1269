@@ -12,7 +12,7 @@ const grades = [
 ];
 
 const ChildManagePage: React.FC = () => {
-  const { children, currentChild, setCurrentChild } = useApp();
+  const { children, currentChild, setCurrentChild, addChild } = useApp();
   const [showAddModal, setShowAddModal] = useState(false);
   const [childName, setChildName] = useState('');
   const [childAge, setChildAge] = useState('');
@@ -26,6 +26,14 @@ const ChildManagePage: React.FC = () => {
     }
   };
 
+  const avatarPool = [
+    'https://picsum.photos/id/64/200/200',
+    'https://picsum.photos/id/65/200/200',
+    'https://picsum.photos/id/66/200/200',
+    'https://picsum.photos/id/91/200/200',
+    'https://picsum.photos/id/237/200/200'
+  ];
+
   const handleAddChild = () => {
     if (!childName.trim()) {
       Taro.showToast({ title: '请输入孩子姓名', icon: 'none' });
@@ -34,6 +42,17 @@ const ChildManagePage: React.FC = () => {
     if (!selectedGrade) {
       Taro.showToast({ title: '请选择年级', icon: 'none' });
       return;
+    }
+
+    const newChild = addChild({
+      name: childName.trim(),
+      age: childAge ? parseInt(childAge) : 6,
+      grade: selectedGrade,
+      avatar: avatarPool[Math.floor(Math.random() * avatarPool.length)]
+    });
+
+    if (newChild) {
+      setCurrentChild(newChild);
     }
 
     Taro.showToast({ title: '添加成功', icon: 'success' });
