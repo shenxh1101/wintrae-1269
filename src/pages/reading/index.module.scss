@@ -1,0 +1,446 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 40rpx;
+}
+
+.bookSelector {
+  margin: $spacing-md $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-md;
+}
+
+.selectorLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-sm;
+  display: block;
+}
+
+.selectedBook {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+  padding: $spacing-sm;
+  background: $color-bg-tag;
+  border-radius: $radius-md;
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.selectedBookCover {
+  width: 80rpx;
+  height: 100rpx;
+  border-radius: $radius-sm;
+  flex-shrink: 0;
+}
+
+.selectedBookInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.selectedBookTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.selectedBookProgress {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.selectBookBtn {
+  @include button-reset;
+  height: 80rpx;
+  padding: 0 $spacing-md;
+  background: $color-bg-tag;
+  border-radius: $radius-md;
+  color: $color-primary;
+  font-size: $font-size-md;
+  justify-content: flex-start;
+  gap: $spacing-sm;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.timerSection {
+  margin: $spacing-lg $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-card;
+  padding: $spacing-xl;
+  text-align: center;
+}
+
+.timerCircle {
+  width: 400rpx;
+  height: 400rpx;
+  border-radius: 50%;
+  margin: 0 auto $spacing-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 16rpx 48rpx rgba(79, 124, 255, 0.3);
+  position: relative;
+}
+
+.timerInnerCircle {
+  width: 360rpx;
+  height: 360rpx;
+  border-radius: 50%;
+  background: $color-bg-card;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timerText {
+  font-size: 72rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  font-family: 'DIN Alternate', monospace;
+  letter-spacing: 4rpx;
+}
+
+.timerLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-top: $spacing-sm;
+}
+
+.timerControls {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-lg;
+}
+
+.timerBtn {
+  @include button-reset;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  font-size: $font-size-xl;
+
+  &.primary {
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+    color: $color-text-white;
+    box-shadow: 0 8rpx 24rpx rgba(79, 124, 255, 0.4);
+  }
+
+  &.secondary {
+    background: $color-bg-tag;
+    color: $color-text-secondary;
+  }
+
+  &.accent {
+    background: linear-gradient(135deg, $color-accent 0%, $color-accent-light 100%);
+    color: $color-text-white;
+    box-shadow: 0 8rpx 24rpx rgba(255, 159, 67, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.section {
+  margin: $spacing-md $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: $spacing-lg;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.sectionIcon {
+  font-size: $font-size-xl;
+}
+
+.addBtn {
+  @include button-reset;
+  padding: $spacing-sm $spacing-md;
+  background: $color-bg-tag;
+  border-radius: $radius-button;
+  color: $color-primary;
+  font-size: $font-size-sm;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.pageInput {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.pageInputLabel {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  width: 100rpx;
+}
+
+.pageInputField {
+  flex: 1;
+  height: 72rpx;
+  background: $color-bg-tag;
+  border-radius: $radius-md;
+  padding: 0 $spacing-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  border: none;
+}
+
+.sentencesList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.sentenceItem {
+  background: $color-bg-tag;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  position: relative;
+}
+
+.sentenceText {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  line-height: 1.6;
+}
+
+.sentenceDelete {
+  position: absolute;
+  top: $spacing-sm;
+  right: $spacing-sm;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.wordsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.wordItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-bg-tag;
+  border-radius: $radius-button;
+  padding: $spacing-sm $spacing-md;
+}
+
+.wordText {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+}
+
+.wordDelete {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.audioRecorder {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background: $color-bg-tag;
+  border-radius: $radius-md;
+}
+
+.recordBtn {
+  @include button-reset;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: $color-error;
+  color: $color-text-white;
+  font-size: 28rpx;
+
+  &.recording {
+    animation: pulse 1.5s infinite;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 63, 63, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 16rpx rgba(245, 63, 63, 0);
+  }
+}
+
+.recordInfo {
+  flex: 1;
+}
+
+.recordStatus {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 4rpx;
+}
+
+.recordDuration {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.submitSection {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc(#{$spacing-md} + env(safe-area-inset-bottom));
+  background: $color-bg-card;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
+}
+
+.submitBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.99);
+  }
+
+  &:disabled {
+    background: $color-text-disabled;
+    color: $color-text-white;
+  }
+}
+
+.emptyReading {
+  text-align: center;
+  padding: $spacing-xl 0;
+  color: $color-text-tertiary;
+  font-size: $font-size-sm;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $page-padding;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 600rpx;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+}
+
+.modalInput {
+  width: 100%;
+  min-height: 160rpx;
+  background: $color-bg-tag;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  margin-bottom: $spacing-lg;
+  border: none;
+}
+
+.modalActions {
+  display: flex;
+  gap: $spacing-md;
+}
+
+.modalBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-md;
+  border-radius: $radius-button;
+  font-size: $font-size-md;
+
+  &.cancel {
+    background: $color-bg-tag;
+    color: $color-text-secondary;
+  }
+
+  &.confirm {
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+    color: $color-text-white;
+  }
+
+  &:active {
+    opacity: 0.9;
+  }
+}

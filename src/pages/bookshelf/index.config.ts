@@ -1,0 +1,5 @@
+export default definePageConfig({
+  navigationBarTitleText: '我的书架',
+  enablePullDownRefresh: true,
+  backgroundTextStyle: 'light'
+});

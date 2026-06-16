@@ -1,0 +1,76 @@
+@use '@/styles/variables.scss' as *;
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+
+  &.primary .iconArea {
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  }
+
+  &.success .iconArea {
+    background: linear-gradient(135deg, $color-success 0%, $color-success-light 100%);
+  }
+
+  &.warning .iconArea {
+    background: linear-gradient(135deg, $color-warning 0%, $color-accent-light 100%);
+  }
+
+  &.accent .iconArea {
+    background: linear-gradient(135deg, $color-accent 0%, $color-accent-light 100%);
+  }
+
+  &:active {
+    transform: scale(0.98);
+    opacity: 0.95;
+  }
+}
+
+.iconArea {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: 36rpx;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-xs;
+}
+
+.value {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: 1.2;
+}
+
+.unit {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.title {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}

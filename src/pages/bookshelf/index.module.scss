@@ -1,0 +1,226 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 120rpx;
+}
+
+.header {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-lg $page-padding $spacing-xl;
+  border-radius: 0 0 32rpx 32rpx;
+  margin-bottom: -40rpx;
+}
+
+.childSelector {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.childAvatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: $radius-round;
+  border: 4rpx solid rgba(255, 255, 255, 0.5);
+  background: $color-bg-card;
+}
+
+.childInfo {
+  flex: 1;
+}
+
+.childName {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.childGrade {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.switchBtn {
+  @include button-reset;
+  padding: $spacing-sm $spacing-md;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-button;
+  color: $color-text-white;
+  font-size: $font-size-sm;
+
+  &:active {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.statsRow {
+  display: flex;
+  gap: $spacing-md;
+}
+
+.statItem {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  text-align: center;
+}
+
+.statValue {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  display: block;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.filterSection {
+  margin: 0 $page-padding;
+  padding-top: $spacing-lg;
+  margin-bottom: $spacing-md;
+}
+
+.filterTabs {
+  display: flex;
+  gap: $spacing-sm;
+  background: $color-bg-card;
+  padding: $spacing-xs;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+}
+
+.filterTab {
+  flex: 1;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  transition: all $transition-base;
+
+  &.active {
+    background: $color-primary;
+    color: $color-text-white;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.filterTabText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+
+  .active & {
+    color: $color-text-white;
+  }
+}
+
+.booksSection {
+  padding: 0 $page-padding;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.bookCount {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.booksGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  justify-content: space-between;
+}
+
+.emptyWrapper {
+  padding: $spacing-xl 0;
+}
+
+.addBtn {
+  position: fixed;
+  right: $page-padding;
+  bottom: 140rpx;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-accent 0%, $color-accent-light 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(255, 159, 67, 0.4);
+  z-index: 100;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.addBtnText {
+  font-size: 56rpx;
+  color: $color-text-white;
+  font-weight: $font-weight-light;
+  line-height: 1;
+}
+
+.addMenu {
+  position: fixed;
+  right: $page-padding;
+  bottom: 270rpx;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-popup;
+  padding: $spacing-sm;
+  z-index: 101;
+  min-width: 240rpx;
+}
+
+.addMenuItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.addMenuIcon {
+  font-size: 36rpx;
+}
+
+.addMenuText {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+}

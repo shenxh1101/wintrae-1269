@@ -1,0 +1,166 @@
+@use '@/styles/variables.scss' as *;
+
+.bookCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  &.small {
+    width: 200rpx;
+
+    .coverWrapper {
+      height: 280rpx;
+    }
+
+    .info {
+      padding: $spacing-sm $spacing-xs;
+    }
+
+    .title {
+      font-size: $font-size-sm;
+      line-height: 1.3;
+    }
+
+    .author {
+      font-size: $font-size-xs;
+    }
+  }
+
+  &.medium {
+    width: 220rpx;
+
+    .coverWrapper {
+      height: 300rpx;
+    }
+
+    .info {
+      padding: $spacing-sm $spacing-md;
+    }
+  }
+
+  &.large {
+    display: flex;
+    width: 100%;
+
+    .coverWrapper {
+      width: 180rpx;
+      height: 240rpx;
+      flex-shrink: 0;
+    }
+
+    .info {
+      flex: 1;
+      padding: $spacing-md;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .progressBar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.coverWrapper {
+  position: relative;
+  width: 100%;
+  background: $color-bg-tag;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.statusBadge {
+  position: absolute;
+  top: $spacing-sm;
+  right: $spacing-sm;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-xs;
+  backdrop-filter: blur(8rpx);
+
+  &.statusReading {
+    background: rgba(79, 124, 255, 0.9);
+  }
+
+  &.statusFinished {
+    background: rgba(46, 213, 115, 0.9);
+  }
+
+  &.statusBorrowed {
+    background: rgba(255, 159, 67, 0.9);
+  }
+}
+
+.statusText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6rpx;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.progressFill {
+  height: 100%;
+  background: $color-primary;
+  border-radius: 0 3rpx 3rpx 0;
+  transition: width $transition-base;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+}
+
+.author {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  @include text-ellipsis;
+}
+
+.categoryTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 12rpx;
+  background: $color-bg-tag;
+  border-radius: $radius-sm;
+  align-self: flex-start;
+}
+
+.categoryText {
+  font-size: $font-size-xs;
+  color: $color-primary;
+}
+
+.progressText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
